@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import Button from './Button';
 import card from './Card';
@@ -47,11 +48,9 @@ const Actions = styled.footer`
     justify-content: flex-end;
 `;
 
-function ErrorModal({title, message, onConfirm}) {
-
-    return(
+function ModalOverlay({title, message, onConfirm}) {
+    return (
         <>
-            <Backdrop onClick={onConfirm}/>
             <Card>
                 <Header>
                     <h2>
@@ -65,6 +64,23 @@ function ErrorModal({title, message, onConfirm}) {
                     <Button onClick={onConfirm}>Okay</Button>
                 </Actions>
             </Card>
+        </>
+    );
+}
+
+
+function ErrorModal(props) {
+    return(
+        <>
+            {ReactDOM.createPortal(
+                <Backdrop onConfirm={props.onConfirm}/>,
+                document.getElementById("backdrop-root")
+            )}
+
+            {ReactDOM.createPortal(
+                <ModalOverlay {...props}/>,
+                document.getElementById("overlay-root")
+            )}
         </>
     );
 }
