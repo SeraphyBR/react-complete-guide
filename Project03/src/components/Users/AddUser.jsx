@@ -75,7 +75,7 @@ function AddUser({onAddUser}) {
     }
 
     return(
-        <div>
+        <>
             {error && <ErrorModal {...error} onConfirm={errorHandler}/>}
             <Card>
                 <form onSubmit={addUserHandler}>
@@ -98,7 +98,7 @@ function AddUser({onAddUser}) {
                     <Button type="submit">Add User</Button>
                 </form>
             </Card>
-        </div>
+        </>
     );
 }
 

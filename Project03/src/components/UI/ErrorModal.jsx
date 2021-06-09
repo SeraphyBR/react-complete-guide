@@ -50,7 +50,7 @@ const Actions = styled.footer`
 function ErrorModal({title, message, onConfirm}) {
 
     return(
-        <div>
+        <>
             <Backdrop onClick={onConfirm}/>
             <Card>
                 <Header>
@@ -65,7 +65,7 @@ function ErrorModal({title, message, onConfirm}) {
                     <Button onClick={onConfirm}>Okay</Button>
                 </Actions>
             </Card>
-        </div>
+        </>
     );
 }
 
