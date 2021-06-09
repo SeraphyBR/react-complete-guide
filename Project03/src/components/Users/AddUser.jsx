@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../UI/Button';
 import card from '../UI/Card';
@@ -33,12 +33,15 @@ const Card = styled(card)`
 
 
 function AddUser({onAddUser}) {
-    const [enteredUsername, setEnteredUsername] = useState('');
-    const [enteredAge, setEnteredAge] = useState('');
+    const nameInputRef = useRef();
+    const ageInputRef = useRef();
     const [error, setError] = useState();
 
     function addUserHandler(event) {
         event.preventDefault();
+
+        const enteredUsername = nameInputRef.current.value;
+        const enteredAge = ageInputRef.current.value;
 
         if(enteredUsername.trim().length === 0 || enteredAge.trim().length === 0){
             setError({
@@ -58,16 +61,8 @@ function AddUser({onAddUser}) {
         }
 
         onAddUser(enteredUsername, enteredAge);
-        setEnteredUsername('');
-        setEnteredAge('');
-    }
-
-    function usernameChangeHandler(event) {
-        setEnteredUsername(event.target.value);
-    }
-
-    function ageChangeHandler(event) {
-        setEnteredAge(event.target.value);
+        nameInputRef.current.value = '';
+        ageInputRef.current.value = '';
     }
 
     function errorHandler() {
@@ -83,16 +78,14 @@ function AddUser({onAddUser}) {
                     <input
                         id="username"
                         type="text"
-                        onChange={usernameChangeHandler}
-                        value={enteredUsername}
+                        ref={nameInputRef}
                     />
 
                     <label htmlFor="age">Age (Years)</label>
                     <input
                         id="age"
                         type="number"
-                        onChange={ageChangeHandler}
-                        value={enteredAge}
+                        ref={ageInputRef}
                     />
 
                     <Button type="submit">Add User</Button>
