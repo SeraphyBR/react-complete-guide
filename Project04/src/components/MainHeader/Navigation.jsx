@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import AuthContext from "../../store/auth_context";
 
 const Nav = styled.nav`
     & ul {
@@ -47,11 +48,12 @@ const Nav = styled.nav`
     }
 `;
 
-function Navigation({ isLoggedIn, onLogout }) {
+function Navigation() {
+    const ctx = useContext(AuthContext);
     return (
         <Nav>
             <ul>
-                {isLoggedIn && (
+                {ctx.isLoggedIn && (
                     <>
                         <li>
                             <a href="/">Users</a>
@@ -62,7 +64,7 @@ function Navigation({ isLoggedIn, onLogout }) {
                         </li>
 
                         <li>
-                            <button onClick={onLogout}>Logout</button>
+                            <button onClick={ctx.onLogout}>Logout</button>
                         </li>
                     </>
                 )}

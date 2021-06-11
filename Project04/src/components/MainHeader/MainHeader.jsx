@@ -20,11 +20,11 @@ const Header = styled.header`
     }
 `;
 
-function MainHeader({ isAuthenticated, onLogout }) {
+function MainHeader() {
     return (
         <Header>
             <h1>A Typical Page</h1>
-            <Navigation isLoggedIn={isAuthenticated} onLogout={onLogout} />
+            <Navigation/>
         </Header>
     );
 }

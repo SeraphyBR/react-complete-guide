@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-
+import AuthContext from "../../store/auth_context";
+import Button from "../UI/Button/Button"
 import Card from "../UI/Card/Card";
 
 const HomeCard = styled(Card)`
@@ -12,9 +13,11 @@ const HomeCard = styled(Card)`
 `;
 
 function Home() {
+    const authCtx = useContext(AuthContext);
     return (
         <HomeCard>
             <h1>Welcome back!</h1>
+            <Button onClick={authCtx.onLogout}>Logout</Button>
         </HomeCard>
     );
 }
