@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import Card from "../UI/Card/Card";
@@ -25,6 +25,9 @@ function Login() {
     const [enteredPassword, setEnteredPassword] = useState("");
     const [passwordIsValid, setPasswordIsValid] = useState(true);
     const [formIsValid, setFormIsValid] = useState(false);
+
+    const emailInputRef = useRef();
+    const passwordInputRef = useRef();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -55,13 +58,20 @@ function Login() {
 
     function submitHandler(event) {
         event.preventDefault();
-        authCtx.onLogin(enteredEmail, enteredPassword);
+        if(formIsValid) {
+            authCtx.onLogin(enteredEmail, enteredPassword);
+        } else if (!emailIsValid) {
+            emailInputRef.current.focus();
+        } else {
+            passwordInputRef.current.focus();
+        }
     }
 
     return (
         <LoginCard>
             <form onSubmit={submitHandler}>
                 <Input
+                    ref={emailInputRef}
                     id="email"
                     label="E-Mail"
                     type="email"
@@ -71,6 +81,7 @@ function Login() {
                     onBlur={validateEmailHandler}
                 />
                 <Input
+                    ref={passwordInputRef}
                     id="password"
                     label="Password"
                     type="password"
@@ -80,7 +91,7 @@ function Login() {
                     onBlur={validatePasswordHandler}
                 />
                 <Actions>
-                    <Button type="submit" disabled={!formIsValid}>
+                    <Button type="submit">
                         Login
                     </Button>
                 </Actions>

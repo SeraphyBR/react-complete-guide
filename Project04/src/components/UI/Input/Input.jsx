@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
 const InputControl = styled.div`
@@ -40,11 +40,26 @@ const InputControl = styled.div`
     }
 `;
 
-function Input({isValid, label, id, type, value, onChange, onBlur}) {
+function Input({isValid, label, id, type, value, onChange, onBlur}, ref) {
+
+    const inputRef = useRef();
+
+    function focus() {
+        inputRef.current.focus();
+    }
+
+    // Exposing methods to a ref of my custom input
+    useImperativeHandle(ref, () => {
+        return {
+            focus
+        };
+    });
+
     return (
         <InputControl invalid={!isValid}>
             <label htmlFor={id}>{label}</label>
             <input
+                ref={inputRef}
                 type={type}
                 id={id}
                 value={value}
@@ -55,4 +70,4 @@ function Input({isValid, label, id, type, value, onChange, onBlur}) {
     );
 }
 
-export default Input;
+export default React.forwardRef(Input);
