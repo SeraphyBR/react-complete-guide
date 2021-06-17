@@ -61,7 +61,7 @@ function Cart({onClose}) {
     const hasItems = cartCtx.items.length > 0;
 
     function cartItemAddHandler(item) {
-        cartCtx.addItem({amount: 1, ...item})
+        cartCtx.addItem({...item, amount: 1});
     }
 
     function cartItemRemoveHandler(id) {

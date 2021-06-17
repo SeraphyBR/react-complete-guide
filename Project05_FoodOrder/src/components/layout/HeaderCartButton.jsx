@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import CartContext from "../../store/cart_context";
 import CartIcon from "../cart/CartIcon";
@@ -29,6 +29,7 @@ const Button = styled.button`
     align-items: center;
     border-radius: 25px;
     font-weight: bold;
+    animation: ${({bump}) => bump ? "bump 300ms ease-out" : "none"};
 
     &:hover,
     &:active {
@@ -37,10 +38,6 @@ const Button = styled.button`
 
     &:hover ${BadgeSpan}, &:active ${BadgeSpan} {
         background-color: #92320c;
-    }
-
-    .bump {
-        animation: bump 300ms ease-out;
     }
 
     @keyframes bump {
@@ -63,6 +60,8 @@ const Button = styled.button`
 `;
 
 function HeaderCartButton({ ...button }) {
+    const [isBumped, setIsBumped] = useState(false);
+
     const cardCtx = useContext(CartContext);
 
     const numberOfCartItems = cardCtx.items.reduce(
@@ -70,8 +69,19 @@ function HeaderCartButton({ ...button }) {
         0
     );
 
+    useEffect(() => {
+        if(cardCtx.items.length === 0) return;
+        setIsBumped(true);
+
+        const timer = setTimeout(() => {
+            setIsBumped(false);
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [cardCtx.items]);
+
     return (
-        <Button {...button}>
+        <Button {...button} bump={isBumped}>
             <IconSpan>
                 <CartIcon />
             </IconSpan>
